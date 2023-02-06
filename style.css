@@ -26,6 +26,9 @@ body {
 }
 
 .display{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     position: relative;
     width: 360px;
     height: 150px;
@@ -34,6 +37,16 @@ body {
     border-radius: 20px;
     margin-top: 50px;
     box-shadow: inset 3px 3px 5px 3px rgba(0, 0, 0, 0.3);
+    font-size: 30px;
+}
+
+.row {
+    margin-right: 20px;
+}
+
+.operation-row {
+    margin-top: 15px;
+    letter-spacing: 5px;
 }
 
 .digits-section {
