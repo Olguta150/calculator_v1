@@ -1,3 +1,17 @@
+let operationRow = document.querySelector('.operation-row');
+let resultRow = document.querySelector('.result-row');
+let digits = document.querySelectorAll('.digit');
+let number = document.querySelectorAll('.number');
+let operator = document.querySelectorAll('.operator');
+let clearAll = document.querySelector('.clear-all');
+let clear = document.querySelector('.clear');
+let point = document.querySelector('.point');
+let equal = document.querySelector('.equal');
+
+let firstOperand = '';
+let secondOperand = '';
+let operatorSign = null;
+
 function add(a, b) {
     return a + b;
 }
@@ -34,8 +48,59 @@ function operate(operator, a, b) {
 
 operate(reminder, 63, 4);
 
+// function populateDisplay() {
+//     digits.forEach(digit => {
+//         digit.addEventListener('click', () => {
+//             let number = digit.textContent;
+//             operationRow.textContent += number;
+//             return number;
+//         })
+//     })
+// }
+
+// populateDisplay();
+
+function firstNumber() {
+    number.forEach(num => {
+        num.addEventListener('click', () => {
+            // firstOperand += num.textContent;
+            // operationRow.textContent = firstOperand;
+            addNumber(num.textContent);
+        })
+    })
+}
+
+firstNumber();
+
+function operatorFunction() {
+    operator.forEach(op => {
+        op.addEventListener('click', () => {
+            addOperator(op.textContent);
+        })
+    })
+}
+
+operatorFunction();
+
+function addNumber(content) {
+    operationRow.textContent += content;
+}
+
+function addOperator(content) {
+    if(operatorSign !== null) 
+    operationRow.textContent += content;
+    operatorSign = content;
+}
+
+function result() {
+    equal.addEventListener('click', () => {
+        resultRow.textContent = operate(multiply, 4, 5);
+    })
+}
+
+result();
+
 function onClickStyle() {
-    let digits = document.querySelectorAll('.digit');
 
     digits.forEach(digit => {
         digit.onmousedown = () => {
@@ -48,3 +113,4 @@ function onClickStyle() {
 }
 
 onClickStyle();
+
