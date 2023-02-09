@@ -12,6 +12,9 @@ let firstOperand = '';
 let secondOperand = '';
 let operatorSign = null;
 
+operationRow.textContent = '23 x 15 =';
+resultRow.textContent = 1506;
+
 function add(a, b) {
     return a + b;
 }
@@ -83,7 +86,7 @@ function operatorFunction() {
 operatorFunction();
 
 function addNumber(content) {
-    operationRow.textContent += content;
+    resultRow.textContent += content;
 }
 
 function addOperator(content) {
