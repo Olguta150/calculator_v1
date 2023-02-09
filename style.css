@@ -26,9 +26,9 @@ body {
 }
 
 .display{
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-end; */
     position: relative;
     width: 360px;
     height: 150px;
@@ -37,16 +37,19 @@ body {
     border-radius: 20px;
     margin-top: 50px;
     box-shadow: inset 3px 3px 5px 3px rgba(0, 0, 0, 0.3);
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .row {
+    position: absolute;
+    top: 13px;
+    right: -5px;
     margin-right: 20px;
 }
 
-.operation-row {
-    margin-top: 15px;
-    letter-spacing: 5px;
+.result-row {
+    padding-top: 33px;
+    font-size: 35px;
 }
 
 .digits-section {
