@@ -12,8 +12,12 @@ let firstOperand = '';
 let secondOperand = '';
 let operatorSign = null;
 
-operationRow.textContent = '23 x 15 =';
-resultRow.textContent = 1506;
+// window.onkeydown = () => keyboardInput();
+window.addEventListener('keydown', keyboardInput);
+equal.onclick = () => calculate();
+clearAll.onclick = () => deleteAll();
+clear.onclick = () => deleteSingleChar();
+point.onclick = () => addPoint();
 
 function add(a, b) {
     return a + b;
@@ -31,77 +35,102 @@ function divide(a, b) {
     return a / b;
 }
 
-function reminder(a, b) {
+function modulo(a, b) {
     return a % b;
 }
 
 function operate(operator, a, b) {
-    if(operator === add) {
+    a = Number(a);
+    b = Number(b);
+    if(operator === add || operator === '+') {
         return add(a, b);
-    } else if(operator === substract) {
+    } else if(operator === substract || operator === '-') {
         return substract(a, b);
-    } else if(operator === multiply) {
+    } else if(operator === multiply || operator === '×') {
         return multiply(a, b);
-    } else if(operator === divide) {
-        return divide(a, b);
+    } else if(operator === divide || operator === '÷') {
+        if(b === 0) {
+            console.log('null');
+            return Infinity;
+        } else {
+            return divide(a, b);
+        }
     } else {
-        return reminder(a, b);
+        return modulo(a, b || operator === '%');
     }
 }
 
-operate(reminder, 63, 4);
+operate();
 
-// function populateDisplay() {
-//     digits.forEach(digit => {
-//         digit.addEventListener('click', () => {
-//             let number = digit.textContent;
-//             operationRow.textContent += number;
-//             return number;
-//         })
-//     })
-// }
-
-// populateDisplay();
-
-function firstNumber() {
-    number.forEach(num => {
-        num.addEventListener('click', () => {
-            // firstOperand += num.textContent;
-            // operationRow.textContent = firstOperand;
-            addNumber(num.textContent);
-        })
-    })
+function numberFunction() {
+    number.forEach(num => num.onclick = () => addNumber(num));
 }
 
-firstNumber();
+numberFunction();
+
+function addNumber(number) {
+    resultRow.textContent += number.textContent
+}
 
 function operatorFunction() {
-    operator.forEach(op => {
-        op.addEventListener('click', () => {
-            addOperator(op.textContent);
-        })
-    })
+    operator.forEach(btn => btn.onclick = () => addOperator(btn.textContent))
 }
 
 operatorFunction();
 
-function addNumber(content) {
-    resultRow.textContent += content;
-}
-
 function addOperator(content) {
-    if(operatorSign !== null) 
-    operationRow.textContent += content;
+    if(operatorSign !== null) calculate();
+    firstOperand = resultRow.textContent;
+    operationRow.textContent = `${firstOperand} ${content}`;
+    resultRow.textContent = null;
     operatorSign = content;
 }
 
-function result() {
-    equal.addEventListener('click', () => {
-        resultRow.textContent = operate(multiply, 4, 5);
-    })
+function calculate() {
+    secondOperand = resultRow.textContent;
+    operationRow.textContent = `${firstOperand} ${operatorSign} ${secondOperand}`;
+    resultRow.textContent = roundResult(operate(operatorSign, firstOperand, secondOperand));
+    operatorSign = null;
 }
 
-result();
+function roundResult(number) {
+    return Math.round(number * 10000) / 10000;
+}
+
+function deleteAll() {
+    operationRow.textContent = '';
+    resultRow.textContent = '';
+    firstOperand = '';
+    secondOperand = '';
+    operatorSign = null;
+}
+
+function deleteSingleChar() {
+    if(resultRow.textContent === '') {
+        operationRow.textContent = operationRow.textContent.toString().slice(0, -1);
+    } else {
+        resultRow.textContent = resultRow.textContent.toString().slice(0, -1);
+    }
+}
+
+function addPoint() {
+    if(resultRow.textContent === '') {
+        resultRow.textContent = 0;
+    }
+    if(resultRow.textContent.includes('.')) return
+    resultRow.textContent += '.';
+}
+
+function keyboardInput(e) {
+    if(e.key >= 0 && e.key <= 9) addNumber(e.key);
+    if(e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '%') addOperator(e.key);
+    if(e.key === '.') addPoint();
+    if(e.key === 'Enter' || e.key === '=') calculate();
+    if(e.key === 'Backspace') deleteSingleChar();
+    if(e.key === 'Escape') deleteAll();
+}
+
+// keyboardInput();
 
 function onClickStyle() {
 
