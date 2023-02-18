@@ -11,10 +11,14 @@ let equal = document.querySelector('.equal');
 let firstOperand = '';
 let secondOperand = '';
 let operatorSign = null;
+let equalOperator = false;
 
 // window.onkeydown = () => keyboardInput();
 window.addEventListener('keydown', keyboardInput);
-equal.onclick = () => calculate();
+equal.onclick = () => {
+    calculate();
+    equalOperator = true;
+}
 clearAll.onclick = () => deleteAll();
 clear.onclick = () => deleteSingleChar();
 point.onclick = () => addPoint();
@@ -46,9 +50,9 @@ function operate(operator, a, b) {
         return add(a, b);
     } else if(operator === substract || operator === '-') {
         return substract(a, b);
-    } else if(operator === multiply || operator === '×') {
+    } else if(operator === multiply || operator === '×' || operator === '*') {
         return multiply(a, b);
-    } else if(operator === divide || operator === '÷') {
+    } else if(operator === divide || operator === '÷' || operator === '/') {
         if(b === 0) {
             console.log('null');
             return Infinity;
@@ -63,13 +67,18 @@ function operate(operator, a, b) {
 operate();
 
 function numberFunction() {
-    number.forEach(num => num.onclick = () => addNumber(num));
+    number.forEach(num => num.onclick = () => addNumber(num.textContent));
 }
 
 numberFunction();
 
 function addNumber(number) {
-    resultRow.textContent += number.textContent
+    if(equalOperator){
+        resultRow.textContent = '';
+        operationRow.textContent = '';
+    }
+    equalOperator = false;
+    resultRow.textContent += number;
 }
 
 function operatorFunction() {
@@ -123,11 +132,22 @@ function addPoint() {
 
 function keyboardInput(e) {
     if(e.key >= 0 && e.key <= 9) addNumber(e.key);
-    if(e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '%') addOperator(e.key);
+    if(e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '%') addOperator(convertOperator(e.key));
     if(e.key === '.') addPoint();
-    if(e.key === 'Enter' || e.key === '=') calculate();
+    if(e.key === 'Enter' || e.key === '='){
+        calculate();
+        equalOperator = true;
+    }
     if(e.key === 'Backspace') deleteSingleChar();
     if(e.key === 'Escape') deleteAll();
+}
+
+function convertOperator(keyboard) {
+    if(keyboard === '+') return '+';
+    if(keyboard === '-') return '-';
+    if(keyboard === '*') return '×';
+    if(keyboard === '/') return '÷';
+    if(keyboard === '%') return '%';
 }
 
 // keyboardInput();
